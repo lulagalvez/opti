@@ -2,16 +2,16 @@ import pulp
 
 def gg(c):
     problema = pulp.LpProblem("Rutas_Minimas_GG", pulp.LpMinimize)
-    n=len(c)
-    V = range(n)  
-    A = [(i, j) for i in V for j in V if i != j]
+    n=len(c)  #cantidad de nodos
+    V = range(n)  #vertices
+    A = [(i, j) for i in V for j in V if i != j]  #aristas
 
-    x = pulp.LpVariable.dicts("x", A, 0, 1, pulp.LpBinary)
-    g = pulp.LpVariable.dicts("g", A, 0, None, pulp.LpInteger )
+    x = pulp.LpVariable.dicts("x", A, 0, 1, pulp.LpBinary)  #variables de desicion binarias
+    g = pulp.LpVariable.dicts("g", A, 0, None, pulp.LpInteger)  #variable entera que define el numero de aristas que van desde el vertice 1 hacia el vertice ij dentro de la ruta optima
 
-    problema += pulp.lpSum(c[i][j] * x[(i, j)] for (i, j) in A)
+    problema += pulp.lpSum(c[i][j] * x[(i, j)] for (i, j) in A) #funcion objetivo de minimización
 
-    for i in V:
+    for i in V:   #restriccion 
         problema += pulp.lpSum(x[(i, j)] for j in V if i != j) == 1
 
     for j in V:
@@ -21,7 +21,7 @@ def gg(c):
         problema += pulp.lpSum(g[(i,j)] for j in V if i!=j) - pulp.lpSum(g[(j,i)] for j in range(1,n) if i != j) == 1
         for j in V:
             if i!=j:
-                problema += g[(i,j)] <= (n-1)*x[(i,j)] # Restricción de capacidad    
+                problema += g[(i,j)] <= (n-1)*x[(i,j)] #restricción de capacidad    
         
     problema.solve()
 
