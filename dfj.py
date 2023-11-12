@@ -1,7 +1,7 @@
 import pulp
 
 def dfj(c):
-    problem = pulp.LpProblem("ATSP", pulp.LpMinimize)
+    problem = pulp.LpProblem("Rutas_minimas_DFJ", pulp.LpMinimize)
 
     n = len(c)
     V = range(n) # vertices
