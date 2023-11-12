@@ -3,14 +3,14 @@ import pulp
 def mtz(c):
     
     problema = pulp.LpProblem("Rutas_Minimas_MTZ", pulp.LpMinimize)
-    n=len(c)  #cantidad de nodos    
-    V = range(n)  #vertices
-    A = [(i, j) for i in V for j in V if i != j]  #aristas
+    n=len(c)  # cantidad de nodos    
+    V = range(n)  # vértices
+    A = [(i, j) for i in V for j in V if i != j]  # aristas
 
-    x = pulp.LpVariable.dicts("x", A, 0, 1, pulp.LpBinary)
-    u = pulp.LpVariable.dicts("u", V, 0.9, n+0.1, pulp.LpInteger )
+    x = pulp.LpVariable.dicts("x", A, 0, 1, pulp.LpBinary) # variables de decisión binarias
+    u = pulp.LpVariable.dicts("u", V, 0.9, n+0.1, pulp.LpInteger ) # variables que representan el orden del vertice i en la ruta optima
 
-    problema += pulp.lpSum(c[i][j] * x[(i, j)] for (i, j) in A)
+    problema += pulp.lpSum(c[i][j] * x[(i, j)] for (i, j) in A) # función objetivo de minimización
 
     for i in V:
         problema += pulp.lpSum(x[(i, j)] for j in V if i != j) == 1
