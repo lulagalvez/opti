@@ -11,13 +11,13 @@ def mtz(c):
     u = pulp.LpVariable.dicts("u", V, 0.9, n+0.1, pulp.LpInteger ) # variables que representan el orden del vertice i en la ruta optima
 
     problema += pulp.lpSum(c[i][j] * x[(i, j)] for (i, j) in A) # función objetivo de minimización
-
+    # Restricciones
     for i in V:
         problema += pulp.lpSum(x[(i, j)] for j in V if i != j) == 1
 
     for j in V:
         problema += pulp.lpSum(x[(i, j)] for i in V if i != j) == 1
-
+    # Restricciones adicionales modelo MTZ
     for i,j in A:
         if(i>=1):
             problema += u[i]-u[j]+1<=n*(1-x[(i,j)])
