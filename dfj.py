@@ -5,7 +5,7 @@ from itertools import combinations
 def dfj(c):
     problem = pulp.LpProblem("Rutas_minimas_DFJ", pulp.LpMinimize)
 
-    n = len(c)
+    n = len(c) #cantidad de nodos
     V = range(n) # vertices
     edges = [(i, j) for i in V for j in V if i != j] # aristas
 
