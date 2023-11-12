@@ -17,7 +17,7 @@ def gg(c):
 
     for j in V:
         problema += pulp.lpSum(x[(i, j)] for i in V if i != j) == 1
-    # Restricciones adcicionales del modelo
+    # Restricciones adcicionales modelo GG
     for i in range(1,n):
         problema += pulp.lpSum(g[(i,j)] for j in V if i!=j) - pulp.lpSum(g[(j,i)] for j in range(1,n) if i != j) == 1
         for j in V:
