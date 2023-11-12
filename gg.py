@@ -3,7 +3,7 @@ import pulp
 def gg(c):
     problema = pulp.LpProblem("Rutas_Minimas_GG", pulp.LpMinimize)
     n=len(c)  # cantidad de nodos
-    V = range(n)  # vertices
+    V = range(n)  # vértices
     A = [(i, j) for i in V for j in V if i != j]  # aristas
 
     x = pulp.LpVariable.dicts("x", A, 0, 1, pulp.LpBinary)  # variables de desicion binarias
