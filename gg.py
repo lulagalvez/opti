@@ -11,20 +11,21 @@ def gg(c):
 
     problema += pulp.lpSum(c[i][j] * x[(i, j)] for (i, j) in A) #funcion objetivo de minimización
 
-    for i in V:   #restriccion 
+    #Restricciones
+    for i in V:   
         problema += pulp.lpSum(x[(i, j)] for j in V if i != j) == 1
 
     for j in V:
         problema += pulp.lpSum(x[(i, j)] for i in V if i != j) == 1
-
+    #Restricciones adcicionales del modelo
     for i in range(1,n):
         problema += pulp.lpSum(g[(i,j)] for j in V if i!=j) - pulp.lpSum(g[(j,i)] for j in range(1,n) if i != j) == 1
         for j in V:
             if i!=j:
-                problema += g[(i,j)] <= (n-1)*x[(i,j)] #restricción de capacidad    
+                problema += g[(i,j)] <= (n-1)*x[(i,j)]  
         
     problema.solve()
-
+    
     print("Calculado utilizando gg")
     print("Millas nauticas que Oscarius Lulang debe recorrer =", pulp.value(problema.objective))
     if pulp.LpStatus[problema.status] == 'Optimal':
