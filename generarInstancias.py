@@ -2,10 +2,10 @@ import os
 import random
 
 def generate_instance(directory, filename, dimension):
-    # Generate a random full matrix of edge weights with diagonal elements set to 0
+    # Generar una matriz completa aleatoria de pesos de aristas con elementos diagonales establecidos en 0
     edge_weights = [[0 if i == j else random.randint(1, 100) for j in range(dimension)] for i in range(dimension)]
 
-    # Prepare the instance string
+    # Preparar la cadena de la instancia
     instance_str = f"NAME: {filename}\n"
     instance_str += "TYPE: ATSP\n"
     instance_str += f"DIMENSION: {dimension}\n"
@@ -18,20 +18,20 @@ def generate_instance(directory, filename, dimension):
 
     instance_str += "EOF"
 
-    # Create the "instances" directory if it does not exist
+    # Crear el directorio "instances" si no existe
     os.makedirs(directory, exist_ok=True)
 
-    # Construct the full path to the file
+    # Construir la ruta completa al archivo
     file_path = os.path.join(directory, filename)
 
-    # Write the instance to the specified file
+    # Escribir la instancia en el archivo especificado
     with open(file_path, "w") as file:
         file.write(instance_str)
 
-    print(f"Instance saved to: {file_path}")
+    print(f"Instancia guardada en: {file_path}")
 
-# Example: Generate an instance with dimension 8 and save to "instances" directory
+# Ejemplo: Generar una instancia con dimensión 8 y guardarla en el directorio "instances"
 directory = "instances"
-filename = input("Enter the name of the file to create (e.g., atsp8_1.tsp): ")
-dimension = int(input("Enter the dimension: "))
+filename = input("Ingrese el nombre del archivo a crear (por ejemplo, atsp8_1.tsp): ")
+dimension = int(input("Ingrese la dimensión: "))
 generate_instance(directory, filename, dimension)
