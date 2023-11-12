@@ -1,4 +1,6 @@
 import pulp
+from itertools import combinations
+
 
 def dfj(c):
     problem = pulp.LpProblem("Rutas_minimas_DFJ", pulp.LpMinimize)
@@ -18,11 +20,11 @@ def dfj(c):
     for j in V:
         problem += pulp.lpSum(x[(i, j)] for i in V if i != j) == 1
 
-    # Eliminando subtours
+    # Eliminación de subtours
     for s in range(2, n):
-        for i in range(n - s + 1):
-            subset = V[i:i + s]
-            problem += pulp.lpSum(x[i, j] for i in subset for j in subset if i != j) <= len(subset) - 1
+        for subset in [[i for i in V if (1 << i) & mask] for mask in range(1 << n)]:
+            if len(subset) == s:
+                problem += pulp.lpSum(x[i, j] for i in subset for j in subset if i != j) <= len(subset) - 1
 
     problem.solve()
 
